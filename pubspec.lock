@@ -94,7 +94,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "0a9e1689517b57f3247e7d15bd92c67f97c670b2"
+      resolved-ref: bcdb50c8e1edb3b7c96b33e1a0bab368772b50c1
       url: "git@github.com:Digia-Technology-Private-Limited/digia_ui.git"
     source: git
     version: "1.0.0+1"
