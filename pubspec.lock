@@ -95,7 +95,7 @@ packages:
       path: "."
       ref: main
       resolved-ref: bcdb50c8e1edb3b7c96b33e1a0bab368772b50c1
-      url: "git@github.com:Digia-Technology-Private-Limited/digia_ui.git"
+      url: "https://github.com/Digia-Technology-Private-Limited/digia_ui.git"
     source: git
     version: "1.0.0+1"
   fake_async:
