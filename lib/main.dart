@@ -5,8 +5,9 @@ import 'package:digia_ui/core/page/dui_page.dart';
 import 'package:digia_ui/core/pref/pref_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
-void main() async {
+FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Load configuration
   await DigiaUiSDk.initialize('json/config.json');
