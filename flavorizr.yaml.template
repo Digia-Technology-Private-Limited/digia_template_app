@@ -1,0 +1,20 @@
+flavors:
+  dev:
+    app:
+      name: ""
+
+    android:
+      applicationId: ""  
+      icon: ""
+    ios:
+      bundleId: ""
+      icon: ""
+  production:
+    app:
+      name: ""
+  
+    android:
+      applicationId: ""
+      icon: ""
+    ios:
+      bundleId: ""
