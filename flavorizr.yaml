@@ -1,0 +1,19 @@
+flavors:
+  dev:
+    app:
+      name: Bytes-Dev
+    android:
+      applicationId: com.digia.bytes.dev
+      icon: assets/images/byte-debug.png
+    ios:
+      bundleId: com.digia.bytes.dev
+      icon: assets/images/byte-debug.png
+  production:
+    app:
+      name: Bytes
+    android:
+      applicationId: com.digia.bytes
+      icon: assets/images/byte.png
+    ios:
+      bundleId: com.digia.bytes
+      icon: assets/images/byte.png

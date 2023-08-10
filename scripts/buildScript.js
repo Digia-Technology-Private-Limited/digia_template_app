@@ -13,7 +13,7 @@ const sampleData  = {
     themeColor: "#0175C3",
     iconName: "byte.png",
     debugIconName: "byte-debug.png",
-    assetBase: "/", //can modify this to cdn url
+    assetBase: "https://preview-build-assets.s3.ap-south-1.amazonaws.com/dev/dev/", //can modify this to cdn url
 }
 
 //Update applicationId, bundleId, icon in flavorizer.yaml
