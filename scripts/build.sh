@@ -5,6 +5,7 @@ git clean -fd
 npm ci
 node buildScript.js
 cd ..
+flutter clean
 flutter pub get
 flutter pub run flutter_flavorizr
 flutter pub run flutter_launcher_icons -f flutter_launcher_icons_web.yaml
