@@ -6,6 +6,8 @@ if [ $# -ne 2 ]; then
 fi
 userId="$1"
 projectId="$2"
+git reset --hard HEAD
+git clean -fd
 # git pull origin main
 npm ci
 node buildScript.js "$userId" "$projectId"
