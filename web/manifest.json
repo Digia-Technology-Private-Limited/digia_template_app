@@ -1,11 +1,10 @@
 {
-    "name": "digia_template_app",
-    "short_name": "digia_template_app",
+    "name": "Bytes",
+    "short_name": "",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Digia Template App",
+    "background_color": "",
+    "theme_color": "",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
@@ -31,5 +30,6 @@
             "type": "image/png",
             "purpose": "maskable"
         }
-    ]
+    ],
+    "shortName": "Bytes"
 }
