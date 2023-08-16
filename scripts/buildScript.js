@@ -1,80 +1,97 @@
 const Mustache = require('mustache');
 const fs = require("fs");
 const yaml = require("js-yaml")
-
+const axios = require('axios');
 //Hit api to get project details
 //Download Icon png
 //Move Icon to assets/images
+const userId = process.argv[2];
+const projectId = process.argv[3];
 
-const sampleData  = {
-    appName: "Bytes",
-    appDescription: "An app for bytes of news",
-    packageId: "com.digia.bytes",
-    themeColor: "#0175C3",
-    iconName: "byte.png",
-    debugIconName: "byte-debug.png",
-    assetBase: "https://preview-build-assets.s3.ap-south-1.amazonaws.com/dev/dev/", //can modify this to cdn url
+const sampleData = {
+    appName: "",
+    appDescription: "",
+    packageId: "",
+    themeColor: "",
+    iconName: "",
+    debugIconName: "",
+    assetBase: `https://d36f200382zxio.cloudfront.net/${userId}/${projectId}/`, //can modify this to cdn url
 }
+// call api using fetch and get project details and update the below variables
+axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
+    projectId: projectId,
+}).then((response) => {
+    if (response.data.isSuccess) {
+        console.log('Project details fetched successfully')
+        const projectDetails = response.data.data.response;
+        sampleData.appName = projectDetails.appName;
+        sampleData.appDescription = projectDetails.appDescription;
+        sampleData.packageId = projectDetails.packageId;
+        sampleData.themeColor = projectDetails.themeColor;
+        sampleData.iconName = projectDetails.iconName;
+        sampleData.debugIconName = projectDetails.debugIconName;
 
-//Update applicationId, bundleId, icon in flavorizer.yaml
-const flavorFile = yaml.load(fs.readFileSync('../flavorizr.yaml.template', "utf8"));
-flavorFile.flavors = {
-    dev: {
-        app: {
-            name: sampleData.appName + "-Dev",
-        },
-        android: {
-            applicationId: sampleData.packageId + '.dev',
-            icon: `assets/images/${sampleData.debugIconName}`
-        },
-        ios: {
-            bundleId: sampleData.packageId + '.dev',
-            icon: `assets/images/${sampleData.debugIconName}`
+        //Update applicationId, bundleId, icon in flavorizer.yaml
+        const flavorFile = yaml.load(fs.readFileSync('../flavorizr.yaml.template', "utf8"));
+        flavorFile.flavors = {
+            dev: {
+                app: {
+                    name: sampleData.appName + "-Dev",
+                },
+                android: {
+                    applicationId: sampleData.packageId + '.dev',
+                    icon: `assets/images/${sampleData.debugIconName}`
+                },
+                ios: {
+                    bundleId: sampleData.packageId + '.dev',
+                    icon: `assets/images/${sampleData.debugIconName}`
+                }
+            },
+            production: {
+                app: {
+                    name: sampleData.appName,
+                },
+                android: {
+                    applicationId: sampleData.packageId,
+                    icon: `assets/images/${sampleData.iconName}`
+                },
+                ios: {
+                    bundleId: sampleData.packageId,
+                    icon: `assets/images/${sampleData.iconName}`
+                }
+            }
         }
-    },
-    production: {
-        app: {
+
+        fs.writeFileSync('../flavorizr.yaml', yaml.dump(flavorFile));
+
+        //update index.html file with variables
+        const template = fs.readFileSync('../web/index.html.mustache', "utf8");
+        const rendered = Mustache.render(template, sampleData);
+        fs.writeFileSync('../web/index.html', rendered)
+
+        //update web manifest
+        let manifest = JSON.parse(fs.readFileSync('../web/manifest.json.template', "utf8"));
+        manifest = {
+            ...manifest,
             name: sampleData.appName,
-        },
-        android: {
-            applicationId: sampleData.packageId,
-            icon: `assets/images/${sampleData.iconName}`
-        },
-        ios: {
-            bundleId: sampleData.packageId,
-            icon: `assets/images/${sampleData.iconName}`
+            shortName: sampleData.appName,
+            description: sampleData.appDescription
         }
+        fs.writeFileSync('../web/manifest.json', JSON.stringify(manifest, null, 4));
+
+        //generate icons for flutter web
+        const webConfig = yaml.load(fs.readFileSync('../flutter_launcher_icons_web.yaml.template', "utf8"));
+        webConfig.flutter_launcher_icons.web = {
+            generate: true,
+            image_path: `assets/images/${sampleData.iconName}`,
+            background_color: sampleData.themeColor,
+            theme_color: sampleData.themeColor
+        }
+        fs.writeFileSync('../flutter_launcher_icons_web.yaml', yaml.dump(webConfig));
+    } else {
+        console.log('Error while fetching project details')
+        console.log(response.data);
     }
-}
-
-fs.writeFileSync('../flavorizr.yaml', yaml.dump(flavorFile));
-
-//update index.html file with variables
-const template = fs.readFileSync('../web/index.html.mustache', "utf8");
-const rendered = Mustache.render(template, sampleData);
-fs.writeFileSync('../web/index.html', rendered)
-
-//update web manifest
-let manifest = JSON.parse(fs.readFileSync('../web/manifest.json.template', "utf8"));
-manifest = {
-    ...manifest,
-    name: sampleData.appName,
-    shortName: sampleData.appName,
-    description: sampleData.description
-}
-fs.writeFileSync('../web/manifest.json', JSON.stringify(manifest, null, 4));
-
-//generate icons for flutter web
-const webConfig = yaml.load(fs.readFileSync('../flutter_launcher_icons_web.yaml.template', "utf8"));
-webConfig.flutter_launcher_icons.web = {
-    generate: true,
-    image_path: `assets/images/${sampleData.iconName}`,
-    background_color: sampleData.themeColor,
-    theme_color: sampleData.themeColor
-} 
-fs.writeFileSync('../flutter_launcher_icons_web.yaml', yaml.dump(webConfig));
-
-
-
-
-
+}).catch((error) => {
+    console.log(error);
+});
