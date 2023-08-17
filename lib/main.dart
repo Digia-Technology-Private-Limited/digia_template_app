@@ -12,7 +12,7 @@ FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Load configuration
   final response = await http
-      .get(Uri.parse('http://demo1139397.mockable.io/bytes'));
+      .get(Uri.parse('https://demo1139397.mockable.io/bytes'));
   await DigiaUiSDk.initialize(response.body);
   runApp(const MyApp());
 }
