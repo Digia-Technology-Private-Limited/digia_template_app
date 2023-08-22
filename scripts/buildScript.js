@@ -2,12 +2,14 @@ const Mustache = require('mustache');
 const fs = require("fs");
 const yaml = require("js-yaml")
 const axios = require('axios');
+const path = require('path');
 //Hit api to get project details
 //Download Icon png
 //Move Icon to assets/images
 const userId = process.argv[2];
 const projectId = process.argv[3];
 
+const processPreviewBuild = async (userId, projectId) => {
 const sampleData = {
     appName: "",
     appDescription: "",
@@ -18,20 +20,36 @@ const sampleData = {
     assetBase: `https://d36f200382zxio.cloudfront.net/${userId}/${projectId}/`, //can modify this to cdn url
 }
 // call api using fetch and get project details and update the below variables
-axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
+await axios.post('http://localhost:3000/api/v1/config/getProjectDetails', {
     projectId: projectId,
-}).then((response) => {
+}).then(async (response) => {
     if (response.data.isSuccess) {
         console.log('Project details fetched successfully')
         const projectDetails = response.data.data.response;
+
+        // download icon
+        const iconUrl = projectDetails.iconName;
+        const urlParts = iconUrl.split('/');
+        const iconNameWithToken = urlParts[urlParts.length - 1];
+        const iconName = iconNameWithToken.split('?')[0];
+        const outputPath = path.join(__dirname, `../assets/images/${iconName}`);
+        await axios({
+            method: 'get',
+            url: iconUrl,
+            responseType: 'stream'
+        }).then(function (response) {
+            response.data.pipe(fs.createWriteStream(outputPath))
+            console.log('Icon downloaded successfully')
+        }).catch((error) => {
+            console.log(error);
+        });
         sampleData.appName = projectDetails.appName;
         sampleData.appDescription = projectDetails.appDescription;
         sampleData.packageId = projectDetails.packageId;
         sampleData.themeColor = projectDetails.themeColor;
-        sampleData.iconName = projectDetails.iconName;
+        sampleData.iconName = iconName;
         sampleData.debugIconName = projectDetails.debugIconName;
-
-        //Update applicationId, bundleId, icon in flavorizer.yaml
+        // Update applicationId, bundleId, icon in flavorizer.yaml
         const flavorFile = yaml.load(fs.readFileSync('../flavorizr.yaml.template', "utf8"));
         flavorFile.flavors = {
             dev: {
@@ -95,3 +113,7 @@ axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
 }).catch((error) => {
     console.log(error);
 });
+
+}
+
+processPreviewBuild(userId, projectId);
