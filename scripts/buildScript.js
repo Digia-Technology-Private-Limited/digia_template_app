@@ -20,7 +20,7 @@ const sampleData = {
     assetBase: `https://d36f200382zxio.cloudfront.net/${userId}/${projectId}/`, //can modify this to cdn url
 }
 // call api using fetch and get project details and update the below variables
-await axios.post('http://localhost:3000/api/v1/config/getProjectDetails', {
+await axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
     projectId: projectId,
 }).then(async (response) => {
     if (response.data.isSuccess) {
