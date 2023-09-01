@@ -48,7 +48,7 @@ await axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
         sampleData.packageId = projectDetails.packageId;
         sampleData.themeColor = projectDetails.themeColor;
         sampleData.iconName = iconName;
-        sampleData.debugIconName = projectDetails.debugIconName;
+        sampleData.debugIconName = iconName;
         // Update applicationId, bundleId, icon in flavorizer.yaml
         const flavorFile = yaml.load(fs.readFileSync('../flavorizr.yaml.template', "utf8"));
         flavorFile.flavors = {
