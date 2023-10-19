@@ -1,19 +1,23 @@
 flavors:
   dev:
     app:
-      name: Bytes-Dev
+      name: Demo Android App-Dev
     android:
-      applicationId: com.digia.bytes.dev
-      icon: assets/images/byte-debug.png
+      applicationId: com.digia.tech demo.dev
+      icon: >-
+        assets/images/uploads%2FgdqbnZ6xbNRmj692yMq26ji2qsH3%2F64f581f9007b81d85eceec68%2FappAssests%2Fbytesl.png
     ios:
-      bundleId: com.digia.bytes.dev
-      icon: assets/images/byte-debug.png
+      bundleId: com.digia.tech demo.dev
+      icon: >-
+        assets/images/uploads%2FgdqbnZ6xbNRmj692yMq26ji2qsH3%2F64f581f9007b81d85eceec68%2FappAssests%2Fbytesl.png
   production:
     app:
-      name: Bytes
+      name: Demo Android App
     android:
-      applicationId: com.digia.bytes
-      icon: assets/images/byte.png
+      applicationId: com.digia.tech demo
+      icon: >-
+        assets/images/uploads%2FgdqbnZ6xbNRmj692yMq26ji2qsH3%2F64f581f9007b81d85eceec68%2FappAssests%2Fbytesl.png
     ios:
-      bundleId: com.digia.bytes
-      icon: assets/images/byte.png
+      bundleId: com.digia.tech demo
+      icon: >-
+        assets/images/uploads%2FgdqbnZ6xbNRmj692yMq26ji2qsH3%2F64f581f9007b81d85eceec68%2FappAssests%2Fbytesl.png

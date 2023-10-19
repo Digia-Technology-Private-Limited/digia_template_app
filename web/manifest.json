@@ -1,10 +1,11 @@
 {
-    "name": "Bytes",
+    "name": "Demo Android App",
     "short_name": "",
     "start_url": ".",
     "display": "standalone",
     "background_color": "",
     "theme_color": "",
+    "description": "this is android app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
@@ -31,5 +32,5 @@
             "purpose": "maskable"
         }
     ],
-    "shortName": "Bytes"
+    "shortName": "Demo Android App"
 }
