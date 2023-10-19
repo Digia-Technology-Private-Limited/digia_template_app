@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-// import 'package:device_preview/device_preview.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:digia_ui/Utils/config_resolver.dart';
 import 'package:digia_ui/Utils/digia_ui_sdk.dart';
 import 'package:digia_ui/Utils/util_functions.dart';
@@ -56,14 +56,20 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w700),
         ),
       ),
-      home: BlocProvider(
-        create: (context) {
-          final resolver = ConfigResolver();
-          return DUIPageBloc(
-              initData: resolver.getfirstPageData(), resolver: resolver)
-            ..add(InitPageEvent());
-        },
-        child: const DUIPage(),
+      home: DevicePreview(
+        enabled: defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.fuchsia,
+        builder: (context) =>  BlocProvider(
+          create: (context) {
+            final resolver = ConfigResolver();
+            return DUIPageBloc(
+                initData: resolver.getfirstPageData(), resolver: resolver)
+              ..add(InitPageEvent());
+          },
+          child: const DUIPage(),
+        ),
       ),
     );
   }
