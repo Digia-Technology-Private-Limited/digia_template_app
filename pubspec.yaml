@@ -36,7 +36,7 @@ dependencies:
   digia_ui:
     git:
       url: git@github.com:Digia-Technology-Private-Limited/digia_ui.git
-      ref: vivek/initLibrary
+      ref: anupam/interceptor
 dev_dependencies:
   flutter_flavorizr: ^2.2.1
   flutter_launcher_icons: "^0.13.1"
@@ -60,8 +60,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - json/
+assets:
+  - assets/json/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

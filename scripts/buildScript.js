@@ -28,7 +28,7 @@ await axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
         const projectDetails = response.data.data.response;
 
         // download icon
-        const iconUrl = projectDetails.iconName;
+        const iconUrl = 'https://firebasestorage.googleapis.com/v0/b/digia-builder-dashboard-42470.appspot.com/o/uploads%2FgdqbnZ6xbNRmj692yMq26ji2qsH3%2F64f581f9007b81d85eceec68%2FappAssests%2Fbytesl.png?alt=media&token=35e6b8b1-81a5-402a-97d8-77acd8a3e16c&_gl=1*4r29i7*_ga*MTYyMjM2NDEzOC4xNjc2MTEyNDY5*_ga_CW55HF8NVT*MTY5NzcwMzM1Mi41Mi4xLjE2OTc3MDQwODQuNTIuMC4w';
         const urlParts = iconUrl.split('/');
         const iconNameWithToken = urlParts[urlParts.length - 1];
         const iconName = iconNameWithToken.split('?')[0];
