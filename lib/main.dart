@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 FutureOr<void> main() async {
+  // print(const String.fromEnvironment('projectId'));
   WidgetsFlutterBinding.ensureInitialized();
   // Load configuration
   final response =

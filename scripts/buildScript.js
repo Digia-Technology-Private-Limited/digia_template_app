@@ -26,7 +26,7 @@ await axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
     if (response.data.isSuccess) {
         console.log('Project details fetched successfully')
         const projectDetails = response.data.data.response;
-
+        console.log(JSON.stringify(projectDetails))
         // download icon
         const iconUrl = 'https://firebasestorage.googleapis.com/v0/b/digia-builder-dashboard-42470.appspot.com/o/uploads%2FgdqbnZ6xbNRmj692yMq26ji2qsH3%2F64f581f9007b81d85eceec68%2FappAssests%2Fbytesl.png?alt=media&token=35e6b8b1-81a5-402a-97d8-77acd8a3e16c&_gl=1*4r29i7*_ga*MTYyMjM2NDEzOC4xNjc2MTEyNDY5*_ga_CW55HF8NVT*MTY5NzcwMzM1Mi41Mi4xLjE2OTc3MDQwODQuNTIuMC4w';
         const urlParts = iconUrl.split('/');
@@ -97,6 +97,11 @@ await axios.post('https://app.digia.tech/api/v1/config/getProjectDetails', {
         }
         fs.writeFileSync('../web/manifest.json', JSON.stringify(manifest, null, 4));
 
+        const appConfig = {
+            projectId
+        }
+        console.log( JSON.stringify(appConfig, null, 4))
+        fs.writeFileSync('../appConfig.json', JSON.stringify(appConfig, null, 4));
         //generate icons for flutter web
         const webConfig = yaml.load(fs.readFileSync('../flutter_launcher_icons_web.yaml.template', "utf8"));
         webConfig.flutter_launcher_icons.web = {
