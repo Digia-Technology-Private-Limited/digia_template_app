@@ -20,7 +20,7 @@ FutureOr<void> main() async {
   final response =
       await http.post(Uri.parse('https://app.digia.tech/hydrator/api/config/getAppConfig'),
           body: {
-        "projectId": "654a07bd58a81f8c6e5c38c5"
+        "projectId": const String.fromEnvironment('projectId')
       });
   final apiDataResponse = await jsonDecode(response.body as String);
   await DigiaUiSDk.initializeByJson(apiDataResponse['data']['response']);
