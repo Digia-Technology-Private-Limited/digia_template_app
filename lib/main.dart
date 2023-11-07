@@ -37,22 +37,22 @@ class MyApp extends StatelessWidget {
       title: 'Digia Template App',
       theme: ThemeData(
         fontFamily: 'Poppins',
-        scaffoldBackgroundColor: toColor('primarybackground'),
-        primaryColor: toColor('primary'),
+        scaffoldBackgroundColor: Colors.white,
+        primaryColor: Colors.blueAccent,
         brightness: Brightness.light,
         appBarTheme: AppBarTheme(
           elevation: 0,
           iconTheme: IconThemeData(
-            color: toColor('primary'),
+            color: Colors.blueAccent,
           ),
-          color: toColor('primary'),
+          color: Colors.blueAccent,
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.light,
           ),
           titleTextStyle: TextStyle(
-              color: toColor('primary'),
+              color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w700),
         ),
