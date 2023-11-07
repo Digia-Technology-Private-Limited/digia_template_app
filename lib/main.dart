@@ -20,7 +20,7 @@ FutureOr<void> main() async {
   final response =
       await http.post(Uri.parse('https://app.digia.tech/hydrator/api/config/getAppConfig'),
           body: {
-        "projectId": "64cbf9be022f05b9b12a2488"
+        "projectId": "654a07bd58a81f8c6e5c38c5"
       });
   final apiDataResponse = await jsonDecode(response.body as String);
   await DigiaUiSDk.initializeByJson(apiDataResponse['data']['response']);
@@ -37,22 +37,22 @@ class MyApp extends StatelessWidget {
       title: 'Digia Template App',
       theme: ThemeData(
         fontFamily: 'Poppins',
-        scaffoldBackgroundColor: toColor('light'),
-        primaryColor: toColor('light'),
+        scaffoldBackgroundColor: toColor('primarybackground'),
+        primaryColor: toColor('primary'),
         brightness: Brightness.light,
         appBarTheme: AppBarTheme(
           elevation: 0,
           iconTheme: IconThemeData(
             color: toColor('primary'),
           ),
-          color: toColor('light'),
+          color: toColor('primary'),
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.light,
           ),
           titleTextStyle: TextStyle(
-              color: toColor('text'),
+              color: toColor('primary'),
               fontSize: 20,
               fontWeight: FontWeight.w700),
         ),
