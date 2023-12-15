@@ -16,7 +16,8 @@ import 'package:http/http.dart' as http;
 
 FutureOr<void> main() async {
   // print(const String.fromEnvironment('projectId'));
-  const projectId = kIsWeb ? context['projectId'] : const String.fromEnvironment('projectId')
+  const projectIdFromEnv = String.fromEnvironment('projectId')
+  const projectId = kIsWeb ? context['projectId'] : projectIdFromEnv;
   print(projectId);
   WidgetsFlutterBinding.ensureInitialized();
   // Load configuration
