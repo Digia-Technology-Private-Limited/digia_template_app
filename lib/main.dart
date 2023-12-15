@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:digia_ui/Utils/config_resolver.dart';
@@ -15,12 +16,15 @@ import 'package:http/http.dart' as http;
 
 FutureOr<void> main() async {
   // print(const String.fromEnvironment('projectId'));
+  const projectIdFromEnv = String.fromEnvironment('projectId');
+  var projectId = kIsWeb ? context['projectId'] : projectIdFromEnv;
+  print(projectId);
   WidgetsFlutterBinding.ensureInitialized();
   // Load configuration
   final response = await http.post(
     Uri.parse('https://app.digia.tech/hydrator/api/config/getAppConfig'),
     body: {
-      "projectId": const String.fromEnvironment('projectId'),
+      "projectId": projectId,
     },
   );
   final apiDataResponse = await jsonDecode(response.body);
