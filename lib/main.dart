@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart"js';
+import 'dart:js';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:digia_ui/Utils/config_resolver.dart';
