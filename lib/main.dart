@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:js';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:digia_template_app/util/platform_util.dart';
 import 'package:digia_ui/Utils/config_resolver.dart';
 import 'package:digia_ui/Utils/digia_ui_sdk.dart';
 import 'package:digia_ui/core/page/dui_page.dart';
@@ -16,8 +16,8 @@ import 'package:http/http.dart' as http;
 
 FutureOr<void> main() async {
   // print(const String.fromEnvironment('projectId'));
-  const projectIdFromEnv = String.fromEnvironment('projectId');
-  var projectId = kIsWeb ? context['projectId'] : projectIdFromEnv;
+  final platformUtil = PlatformUtil();
+  var projectId = platformUtil.getProjectId();
   print(projectId);
   WidgetsFlutterBinding.ensureInitialized();
   // Load configuration
