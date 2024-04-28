@@ -19,7 +19,7 @@
         </intent>
     </queries>
     <application
-        android:label="digia_template_app"
+        android:label="Bytes"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

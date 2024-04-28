@@ -1,36 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:device_preview/device_preview.dart';
-import 'package:digia_template_app/util/platform_util.dart';
-import 'package:digia_ui/Utils/config_resolver.dart';
-import 'package:digia_ui/Utils/digia_ui_sdk.dart';
-import 'package:digia_ui/core/page/dui_page.dart';
-import 'package:digia_ui/core/page/dui_page_bloc.dart';
-import 'package:digia_ui/core/page/dui_page_event.dart';
+import 'package:digia_ui/digia_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 
 FutureOr<void> main() async {
-  // print(const String.fromEnvironment('projectId'));
-  final platformUtil = PlatformUtil();
-  var projectId = platformUtil.getProjectId();
-  print(projectId);
+  var projectId = "65a4e1b85cc29694890b42e8";
   WidgetsFlutterBinding.ensureInitialized();
-  // Load configuration
-  final response = await http.post(
-    Uri.parse('https://app.digia.tech/hydrator/api/config/getAppConfig'),
-    body: {
-      "projectId": projectId,
-    },
-  );
-  final apiDataResponse = await jsonDecode(response.body);
-  await DigiaUiSDk.initializeByJson(
-    apiDataResponse['data']['response'],
-  );
+  await DigiaUIClient.initializeFromNetwork(accessKey: projectId);
   runApp(
     DevicePreview(
       enabled: defaultTargetPlatform == TargetPlatform.windows ||
@@ -49,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Digia Template App',
+      title: 'Bytes',
       theme: ThemeData(
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Colors.white,
@@ -73,18 +51,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: BlocProvider(
-        create: (context) {
-          final resolver = ConfigResolver();
-          return DUIPageBloc(
-            initData: resolver.getfirstPageData(),
-            resolver: resolver,
-          )..add(
-              InitPageEvent(),
-            );
-        },
-        child: const DUIPage(),
-      ),
+      home: Builder(builder: (context) {
+        final initialRouteData =
+            DigiaUIClient.getConfigResolver().getfirstPageData();
+
+        return DUIPage(pageUid: initialRouteData.identifier);
+      }),
     );
   }
 }

@@ -1,6 +1,6 @@
-# digia_template_app
+# bytes
 
-Digia Template App
+Bytes
 
 ## Getting Started
 

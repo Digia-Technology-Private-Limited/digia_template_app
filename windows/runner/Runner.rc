@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.digia.tech" "\0"
-            VALUE "FileDescription", "digia_template_app" "\0"
+            VALUE "FileDescription", "bytes" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "digia_template_app" "\0"
+            VALUE "InternalName", "bytes" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.digia.tech. All rights reserved." "\0"
-            VALUE "OriginalFilename", "digia_template_app.exe" "\0"
-            VALUE "ProductName", "digia_template_app" "\0"
+            VALUE "OriginalFilename", "bytes.exe" "\0"
+            VALUE "ProductName", "bytes" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
