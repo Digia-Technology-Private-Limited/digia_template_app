@@ -1,6 +1,0 @@
-flutter_launcher_icons:
-  web:
-    generate: true
-    image_path: ""
-    background_color: ""
-    theme_color: ""
