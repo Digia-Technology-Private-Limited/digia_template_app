@@ -12,7 +12,7 @@ void main() async {
       DefaultFirebaseOptions.currentPlatform);
 
   await DigiaUIClient.init(
-    accessKey: '67ddc2b66203de1fed5b9a7b',
+    accessKey: '67de48e4209a23110c381d3c',
     flavorInfo: Debug(null),
     environment: 'development',
     baseUrl: 'https://dev.digia.tech/api/v1',

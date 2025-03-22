@@ -19,28 +19,26 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: "AIzaSyB0kAOhoNCl4aet1m9nsjidFvxs6URMRgE",
-    authDomain: "fir-digia.firebaseapp.com",
-    projectId: "fir-digia",
-    storageBucket: "fir-digia.firebasestorage.app",
-    messagingSenderId: "879019274041",
-    appId: "1:879019274041:web:8912f02e1c59569cfb02e8",
-    measurementId: "G-LB5S938854",
+    apiKey: "AIzaSyACiPeAfpd751ajhOdzr86ikd0WqbiAqcQ",
+    authDomain: "team-rudra-e62a3.firebaseapp.com",
+    projectId: "team-rudra-e62a3",
+    storageBucket: "team-rudra-e62a3.firebasestorage.app",
+    messagingSenderId: "9270910034",
+    appId: "1:9270910034:web:ac5e50898f24c3b53e138b",
+    measurementId: "G-EP1HT914EE",
   );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCcjvY8iXS-2cM1NbQfbebIug0cn0K2doo',
-    appId: '1:879019274041:android:ac77532b48734611fb02e8',
-    messagingSenderId: '879019274041',
-    projectId: 'fir-digia',
-    storageBucket: 'fir-digia.firebasestorage.app',
+    apiKey: 'AIzaSyDAl9sPB5Mbt_BAxg1q70XVKGoAeSKE_qY',
+    appId: '1:9270910034:android:2c731afe33b641343e138b',
+    messagingSenderId: '9270910034',
+    projectId: 'team-rudra-e62a3',
+    storageBucket: 'team-rudra-e62a3.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCUuf9sOm8IcfR1D5PkG30fnAXwXWG2kvE',
-    appId: '1:879019274041:ios:2fd118bfb96c9aa3fb02e8',
-    messagingSenderId: '879019274041',
-    projectId: 'fir-digia',
-    storageBucket: 'fir-digia.firebasestorage.app',
+    apiKey: 'AIzaSyBhSlcBtaed2SbbiFJHVHhcgz7gBDewn-M',
+    appId: '1:9270910034:ios:8fef72ed629981503e138b',
+    messagingSenderId: '9270910034',
+    projectId: 'team-rudra-e62a3',
+    storageBucket: 'team-rudra-e62a3.firebasestorage.app',
   );
 }
