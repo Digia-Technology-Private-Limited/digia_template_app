@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "879019274041",
+    "project_id": "fir-digia",
+    "storage_bucket": "fir-digia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879019274041:android:ac77532b48734611fb02e8",
+        "android_client_info": {
+          "package_name": "com.demo.digia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcjvY8iXS-2cM1NbQfbebIug0cn0K2doo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879019274041:android:14206df249349685fb02e8",
+        "android_client_info": {
+          "package_name": "com.mycompany.protein"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcjvY8iXS-2cM1NbQfbebIug0cn0K2doo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879019274041:android:3fe517622d628793fb02e8",
+        "android_client_info": {
+          "package_name": "com.test.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcjvY8iXS-2cM1NbQfbebIug0cn0K2doo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
