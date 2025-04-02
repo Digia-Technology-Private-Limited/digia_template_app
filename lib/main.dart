@@ -12,8 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DUIApp(
-      digiaAccessKey: '674e9da2334bab97c9b414e3',
-      flavorInfo: Debug(),
+      digiaAccessKey: '67d25ecc68d0b85479225509',
+      flavorInfo: Debug(null),
       environment: 'development',
       baseUrl: 'https://app.digia.tech/api/v1',
       networkConfiguration:
