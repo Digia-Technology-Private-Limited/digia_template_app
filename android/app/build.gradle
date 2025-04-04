@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.digia_template_app"
-    compileSdk = 35
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
