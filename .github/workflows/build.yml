@@ -1,0 +1,89 @@
+name: Build and Upload Custom Android APK to S3
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: 'Project ID to write in config.json'
+        required: true
+      app_package_name:
+        description: 'New package name (e.g., com.mycompany.myapp)'
+        required: true
+      icon_url:
+        description: 'Cloudinary image URL for app icon'
+        required: true
+      bucket_name:
+        description: 'S3 bucket name to upload APK'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Java (needed for Gradle/Flutter)
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+
+      # Setup Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.1'
+
+      # Get dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      
+      - name: Update config.json with projectId
+        run: |
+          echo "{\"projectId\": \"${{ github.event.inputs.project_id }}\"}" > config.json
+
+      # ✅ Update package name dynamically
+      - name: Change App Package Name
+        run: |
+          flutter pub run change_app_package_name:main ${{ github.event.inputs.app_package_name }}
+
+      # ✅ Download app icon from Cloudinary
+      - name: Download App Icon
+        run: |
+          mkdir -p assets/icon
+          curl -L "${{ github.event.inputs.icon_url }}" -o assets/icon/app_icon.png
+
+      # ✅ Update App Icon config in pubspec.yaml
+      - name: Configure App Icon
+        run: |
+          echo "flutter_launcher_icons:" >> pubspec.yaml
+          echo "  android: true" >> pubspec.yaml
+          echo "  ios: false" >> pubspec.yaml
+          echo "  image_path: \"assets/icon/app_icon.png\"" >> pubspec.yaml
+
+      # ✅ Generate App Icon
+      - name: Update App Icon
+        run: flutter pub run flutter_launcher_icons:main
+
+      # Build APK
+      - name: Build APK
+        run: flutter build apk --release
+
+      # Configure AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      # Upload APK to S3 with versioning
+      - name: Upload APK to S3
+        run: |
+          VERSION=$(date +'%Y%m%d%H%M%S')
+          aws s3 cp build/app/outputs/flutter-apk/app-release.apk s3://${{ github.event.inputs.bucket_name }}/app-release-$VERSION.apk --acl public-read
