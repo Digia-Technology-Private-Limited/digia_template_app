@@ -50,6 +50,7 @@ jobs:
       # ✅ Update package name dynamically
       - name: Change App Package Name
         run: |
+          flutter pub get 
           flutter pub run change_app_package_name:main ${{ github.event.inputs.app_package_name }}
 
       # ✅ Download app icon from Cloudinary
@@ -67,8 +68,8 @@ jobs:
           echo "  image_path: \"assets/icon/app_icon.png\"" >> pubspec.yaml
 
       # ✅ Generate App Icon
-      - name: Update App Icon
-        run: flutter pub run flutter_launcher_icons:main
+      # - name: Update App Icon
+      #   run: flutter pub run flutter_launcher_icons:main
 
       # Build APK
       - name: Build APK
@@ -86,4 +87,7 @@ jobs:
       - name: Upload APK to S3
         run: |
           VERSION=$(date +'%Y%m%d%H%M%S')
-          aws s3 cp build/app/outputs/flutter-apk/app-release.apk s3://${{ github.event.inputs.bucket_name }}/app-release-$VERSION.apk --acl public-read
+          APK_NAME="app-release-$VERSION.apk"
+          aws s3 cp build/app/outputs/flutter-apk/app-release.apk \
+            s3://${{ github.event.inputs.bucket_name }}/digia/public/projects/${{ github.event.inputs.project_id }}/$APK_NAME \
+            --acl public-read
