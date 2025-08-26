@@ -73,7 +73,7 @@ jobs:
 
       # Build APK
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --no-tree-shake-icons --dart-define-from-file=config.json
 
       # Configure AWS credentials
       - name: Configure AWS credentials
