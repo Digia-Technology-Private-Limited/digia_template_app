@@ -80,7 +80,7 @@ jobs:
       - name: Rename Package
         run: |
           flutter pub get
-          dart run package_rename:main -p "config.yaml"
+          flutter pub run package_rename -p "config.yaml"
 
 
       # Build APK
