@@ -1,4 +1,4 @@
-package com.new.package.name
+package com.digia.com
 
 import io.flutter.embedding.android.FlutterActivity
 

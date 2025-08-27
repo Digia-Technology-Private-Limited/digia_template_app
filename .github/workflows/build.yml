@@ -15,6 +15,9 @@ on:
       bucket_name:
         description: 'S3 bucket name to upload APK'
         required: true
+      app_name:
+        description: 'Name of the app'
+        required: true
 
 jobs:
   build:
@@ -47,29 +50,38 @@ jobs:
         run: |
           echo "{\"projectId\": \"${{ github.event.inputs.project_id }}\"}" > config.json
 
-      # ✅ Update package name dynamically
-      - name: Change App Package Name
-        run: |
-          flutter pub get 
-          flutter pub run change_app_package_name:main ${{ github.event.inputs.app_package_name }}
+      # # ✅ Update package name dynamically
+      # - name: Change App Package Name
+      #   run: |
+      #     flutter pub get 
+      #     flutter pub run change_app_package_name:main ${{ github.event.inputs.app_package_name }}
 
       # ✅ Download app icon from Cloudinary
       - name: Download App Icon
         run: |
           mkdir -p assets/icon
-          curl -L "${{ github.event.inputs.icon_url }}" -o assets/icon/app_icon.png
-
-      # ✅ Update App Icon config in pubspec.yaml
-      - name: Configure App Icon
-        run: |
-          echo "flutter_launcher_icons:" >> pubspec.yaml
-          echo "  android: true" >> pubspec.yaml
-          echo "  ios: false" >> pubspec.yaml
-          echo "  image_path: \"assets/icon/app_icon.png\"" >> pubspec.yaml
+          curl -L "${{ github.event.inputs.icon_url }}" -o assets/icon/appIcon.png
 
       # ✅ Generate App Icon
-      # - name: Update App Icon
-      #   run: flutter pub run flutter_launcher_icons:main
+      - name: Update App Icon
+        run: dart run flutter_launcher_icons:main
+      
+      - name: Update config.yaml
+        run: |
+          # Install yq if not already installed
+          if ! command -v yq &> /dev/null
+          then
+            sudo apt-get update && sudo apt-get install -y yq
+          fi
+
+          # Update app_name and package_name in config.yaml
+          yq eval '.package_rename_config.android.app_name = "'"${{ github.event.inputs.app_name }}"'" | .package_rename_config.android.package_name = "'"${{ github.event.inputs.app_package_name }}"'"' -i config.yaml
+
+      - name: Rename Package
+        run: |
+          flutter pub get
+          dart run package_rename:main -p "config.yaml"
+
 
       # Build APK
       - name: Build APK

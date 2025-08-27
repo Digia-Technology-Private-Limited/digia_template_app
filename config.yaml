@@ -1,0 +1,4 @@
+package_rename_config:
+  android:
+    app_name: "Your App paras" 
+    package_name: "com.example.paras" 
