@@ -64,8 +64,8 @@ jobs:
 
       # ✅ Generate App Icon
       - name: Update App Icon
-        run: dart run flutter_launcher_icons:main
-      
+        run: flutter pub run flutter_launcher_icons:main
+
       - name: Update config.yaml
         run: |
           # Install yq if not already installed
