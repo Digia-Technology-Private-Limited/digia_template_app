@@ -1,5 +1,7 @@
 name: Build and Upload Custom Android APK to S3
 
+run-name: ${{ inputs.uuId }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -18,6 +20,10 @@ on:
       app_name:
         description: 'Name of the app'
         required: true
+      uuId:
+        description: 'Unique Id'
+        required: true
+        default: '0000'
 
 jobs:
   build:
