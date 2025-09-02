@@ -104,8 +104,7 @@ jobs:
       # Upload APK to S3 with versioning
       - name: Upload APK to S3
         run: |
-          VERSION=$(date +'%Y%m%d%H%M%S')
-          APK_NAME="app-release-$VERSION.apk"
+          APK_NAME="app-release-debug"
           aws s3 cp build/app/outputs/flutter-apk/app-release.apk \
             s3://${{ github.event.inputs.bucket_name }}/digia/public/projects/${{ github.event.inputs.project_id }}/$APK_NAME \
             --acl public-read
