@@ -13,7 +13,7 @@ on:
         required: true
       icon_url:
         description: 'Cloudinary image URL for app icon'
-        required: true
+        required: false
       bucket_name:
         description: 'S3 bucket name to upload APK'
         required: true
@@ -28,72 +28,85 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    container:
+      image: public.ecr.aws/digia/flutter:3.35.1
     steps:
-      # Checkout source
+      # ✅ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Setup Java (needed for Gradle/Flutter)
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '22'
+      # ✅ Setup Java (required for Gradle/Flutter)
+      # - name: Set up JDK
+      #   uses: actions/setup-java@v4
+      #   with:
+      #     distribution: 'temurin'
+      #     java-version: '22'
 
-      # Setup Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.35.1'
+      # # ✅ Setup Flutter (with caching)
+      # - name: Set up Flutter
+      #   uses: subosito/flutter-action@v2
+      #   with:
+      #     flutter-version: '3.35.1'
+      #     cache: true
 
-      # Get dependencies
-      - name: Install dependencies
-        run: flutter pub get
+      # # ✅ Setup Android NDK (official action with cache)
+      # - name: Set up Android NDK
+      #   uses: nttld/setup-ndk@v1
+      #   with:
+      #     ndk-version: r27c
+      #     local-cache: true
 
-      
+      # # ✅ Cache Gradle dependencies
+      # - name: Cache Gradle
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       ~/.gradle/caches
+      #       ~/.gradle/wrapper
+      #       android/.gradle
+      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-gradle-
+
+      # # ✅ Install Flutter dependencies
+      # - name: Install dependencies
+      #   run: flutter pub get
+
+      # # ⚡ Clean Flutter build to free space
+      # - name: Clean Flutter build
+      #   run: flutter clean
+
+      # ✅ Update config.json dynamically
       - name: Update config.json with projectId
         run: |
           echo "{\"projectId\": \"${{ github.event.inputs.project_id }}\"}" > config.json
 
-      # # ✅ Update package name dynamically
-      # - name: Change App Package Name
-      #   run: |
-      #     flutter pub get 
-      #     flutter pub run change_app_package_name:main ${{ github.event.inputs.app_package_name }}
-
       # ✅ Download app icon from Cloudinary
       - name: Download App Icon
+        if: ${{ github.event.inputs.icon_url != '' }}
         run: |
           mkdir -p assets/icon
           curl -L "${{ github.event.inputs.icon_url }}" -o assets/icon/appIcon.png
 
-      # ✅ Generate App Icon
+      # ✅ Generate app icon
       - name: Update App Icon
         run: flutter pub run flutter_launcher_icons:main
 
+      # ✅ Update config.yaml dynamically
       - name: Update config.yaml
         run: |
-          # Install yq if not already installed
-          if ! command -v yq &> /dev/null
-          then
-            sudo apt-get update && sudo apt-get install -y yq
-          fi
-
-          # Update app_name and package_name in config.yaml
           yq eval '.package_rename_config.android.app_name = "'"${{ github.event.inputs.app_name }}"'" | .package_rename_config.android.package_name = "'"${{ github.event.inputs.app_package_name }}"'"' -i config.yaml
 
+      # ✅ Rename package
       - name: Rename Package
         run: |
-          flutter pub get
           flutter pub run package_rename -p "config.yaml"
 
-
-      # Build APK
+      # ⚡ Build APK (split per ABI for smaller size)
       - name: Build APK
-        run: flutter build apk --no-tree-shake-icons --dart-define-from-file=config.json
+        run: flutter build apk --no-tree-shake-icons --dart-define-from-file=config.json --split-per-abi
 
-      # Configure AWS credentials
+      # ✅ Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -101,10 +114,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      # Upload APK to S3 with versioning
-      - name: Upload APK to S3
+      - name: Install AWS CLI
         run: |
-          APK_NAME="app-release-debug"
-          aws s3 cp build/app/outputs/flutter-apk/app-release.apk \
-            s3://${{ github.event.inputs.bucket_name }}/digia/public/projects/${{ github.event.inputs.project_id }}/$APK_NAME \
-            --acl public-read
+          apt-get update && apt-get install -y unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
+          aws --version
+
+      # ✅ Upload APKs to S3
+      - name: Upload APKs to S3
+        run: |
+          APK="build/app/outputs/flutter-apk/app-arm64-v8a-release.apk"
+          if [ -f "$APK" ]; then
+            AWS_PATH="digia/public/projects/${{ github.event.inputs.project_id }}/app-release.apk"
+            aws s3 cp "$APK" "s3://${{ github.event.inputs.bucket_name }}/$AWS_PATH" --acl public-read
+          else
+            echo "❌ APK not found: $APK"
+            exit 1
+          fi
